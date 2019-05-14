@@ -15,8 +15,6 @@ def to_gif(arrays, file_name):
 
 	new_arrays = []
 
-	old_i = -1
-
 	for i in range(len(arrays)):
 		temp = np.zeros((new_width, new_height, 3))
 		for j in range(new_width):
