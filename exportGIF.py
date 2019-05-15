@@ -4,7 +4,10 @@ from array2gif import write_gif
 def to_gif(arrays, file_name):
 	'''Exports a list of given arrays as an animated gif with the given file name'''
 
-	max_pixels = 1000
+	for i in range(len(arrays)):
+		arrays[i] = np.transpose(arrays[i], (1, 0, 2))
+
+	max_pixels = 500
 
 	width = arrays[0].shape[0]
 	height = arrays[0].shape[1]
