@@ -18,7 +18,6 @@ gamma = 0.6
 epsilon = 0.1
 
 n_episodes = 1000
-max_time_steps = 200
 
 actions = [u, d, l, r]
 
@@ -34,6 +33,7 @@ def next_reward_done(current_state, move):
 
 	x, y = current_state.pos
 	treasures = deepcopy(current_state.treasures)
+	enemies = deepcopy(current_state.enemies)
 
 	if len(treasures) == 0:
 		return None
@@ -56,7 +56,7 @@ def next_reward_done(current_state, move):
 	else:
 		reward = -1
 
-	next_state = State(new_pos, treasures)
+	next_state = State(new_pos, treasures, enemies)
 
 	if len(next_state.treasures) == 0:
 		done = True
@@ -70,8 +70,10 @@ def qlearn(maze_, starting_pos):
 	maze = deepcopy(maze_)
 
 	treasures = np.argwhere(maze == t).tolist()
+	enemies = np.argwhere(maze == e).tolist()
 
 	# get all states
+	print('Finding all states...', end=' ', flush=True)
 	global all_states
 	for i in range(len(maze)):
 		for j in range(len(maze[0])):
@@ -82,26 +84,41 @@ def qlearn(maze_, starting_pos):
 				combinations = list(itertools.combinations(treasures, k + 1))
 
 				for x in range(len(combinations)):
-					s = State((i, j), list(combinations[x]))
-					if s not in all_states:
-						all_states.append(s)
+
+					if len(enemies) != 0:
+						for y in range(len(enemies)):
+							enemies_comb = list(itertools.combinations(enemies, y + 1))
+
+							for z in range(len(enemies_comb)):
+
+								s = State((i, j), list(combinations[x]), list(enemies_comb[z]))
+								if s not in all_states:
+									all_states.append(s)
+					else:
+						s = State((i, j), list(combinations[x]), [])
+						if s not in all_states:
+							all_states.append(s)
+	print('done')
 
 	# construct reward table
+	print('Constructing reward table...', end=' ', flush=True)
 	reward_table = []
 	for i in range(len(all_states)):
 		reward_table.append({u: next_reward_done(all_states[i], u),
-							d: next_reward_done(all_states[i], d),
-							l: next_reward_done(all_states[i], l),
-							r: next_reward_done(all_states[i], r)})
+							 d: next_reward_done(all_states[i], d),
+							 l: next_reward_done(all_states[i], l),
+							 r: next_reward_done(all_states[i], r)})
+	print('done')
 
 	# initialize q table
+	print('Finding Q table...', flush=True)
 	q_table = np.zeros((len(all_states), 4))
 
 	n_time_steps = []
 
 	for i in range(n_episodes):
 		i % 100 == 0 and print('Episode:', i)
-		state = State(starting_pos, treasures)
+		state = State(starting_pos, treasures, enemies)
 		maze = deepcopy(maze_)
 
 		done = False
@@ -146,7 +163,8 @@ def solve(maze, starting_pos, q_table):
 	global all_states
 
 	treasures = np.argwhere(maze == t).tolist()
-	state = State(starting_pos, treasures)
+	enemies = np.argwhere(maze == e).tolist()
+	state = State(starting_pos, treasures, enemies)
 	done = False
 
 	moves = []

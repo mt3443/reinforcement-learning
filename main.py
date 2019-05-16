@@ -1,62 +1,59 @@
-import numpy as np
+from maze import getMaze
 from qlearning import qlearn, solve
 from createAnimation import createAnimation
 import matplotlib
 import matplotlib.pyplot as plt
+import sys
 
-# maze visualization constants
-b = 'b'
-w = 'w'
-t = 't'
-e = 'e'
+# # get options from command line
+# if len(sys.argv) > 1:
+# 	if sys.argv[1].lower()[0] not in ['s', 'm', 'l']:
+# 		exit('Invalid maze size "{}". Use "s" for small, "m" for medium, or "l" for large'.format(sys.argv[1]))
+# 	else:
+# 		size = sys.argv[1].lower()[0]
+# 		enemies = False
 
-# starting_pos = (15, 9)
-# maze = np.array([[b, b, b, b, b, b, b, b, b, w, b, b, b, b, b, b, b, b, b],
-# 				 [t, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, t],
-# 				 [b, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
-# 				 [b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b],
-# 				 [b, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, b],
-# 				 [b, b, b, b, b, w, b, b, b, w, b, b, b, w, b, b, b, b, b],
-# 				 [w, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, w],
-# 				 [w, w, w, w, b, w, b, b, b, b, b, b, b, w, b, w, w, w, w],
-# 				 [w, w, w, w, b, w, b, w, w, b, w, w, b, w, b, w, w, w, w],
-# 				 [w, w, w, w, b, b, b, w, b, b, b, w, b, b, b, w, w, w, w],
-# 				 [w, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, w],
-# 				 [w, w, w, w, b, w, b, b, b, t, b, b, b, w, b, w, w, w, w],
-# 				 [w, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, w],
-# 				 [b, b, b, b, b, b, b, b, b, w, b, b, b, b, b, b, b, b, b],
-# 				 [b, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
-# 				 [t, b, b, w, b, b, b, b, b, b, b, b, b, b, b, w, b, b, t],
-# 				 [w, w, b, w, b, w, b, w, w, w, w, w, b, w, b, w, b, w, w],
-# 				 [b, b, b, b, b, w, b, b, b, w, b, b, b, w, b, b, b, b, b],
-# 				 [b, w, w, w, w, w, w, w, b, w, b, w, w, w, w, w, w, w, b],
-# 				 [b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b]])
+# if len(sys.argv) == 3:
+# 	if sys.argv[2].lower()[0] != 'e':
+# 		exit('Invalid enemy flag "{}". Add "e" after maze size to enable enemies'.format(sys.argv[2]))
+# 	else:
+# 		enemies = True
 
-starting_pos = (2, 2)
-maze = np.array([[t, b, b, w, t],
-				 [w, w, b, w, b],
-				 [b, w, b, w, b],
-				 [b, b, b, w, b],
-				 [t, w, b, b, b]])
+size = 'l'
+enemies = False
 
-# starting_pos = (0, 0)
-# maze = np.array([[b, b, t],
-# 				 [b, b, b],
-#  				 [t, b, b]])
+# get specified maze
+starting_pos, maze = getMaze(size, enemies)
 
-print('Constructing Q table...', end=' ', flush=True)
+# if sys.argv[1].lower()[0] == 's':
+# 	size_string = 'small'
+# elif sys.argv[1].lower()[0] == 'm':
+# 	size_string = 'medium'
+# else:
+# 	size_string = 'large'
+
+# if enemies:
+# 	enemies_string = 'with'
+# else:
+# 	enemies_string = 'without'
+
+# print('Using {} maze {} enemies'.format(size_string, enemies_string))
+
+print('Start Q learning...', flush=True)
 q_table, n_time_steps = qlearn(maze, starting_pos)
-print('done')
+print('Q learning complete')
 
-print('Solving...', end=' ', flush=True)
+print('Finding best path...', end=' ', flush=True)
 moves = solve(maze, starting_pos, q_table)
 print('done')
 
-print('Calculated path:', moves)
+print('Path:', moves)
 
 print('Animating / Creating GIF...', end=' ', flush=True)
 createAnimation(maze, starting_pos, moves)
 print('done')
+
+print('Animation saved as "animation.gif"')
 
 plt.plot(n_time_steps)
 plt.xlabel('Episode')
