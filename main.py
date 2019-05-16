@@ -8,34 +8,39 @@ w = 'w'
 t = 't'
 e = 'e'
 
-starting_pos = (15, 9)
-maze = np.array([[b, b, b, b, b, b, b, b, b, w, b, b, b, b, b, b, b, b, b],
-				 [t, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
-				 [b, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
-				 [b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b],
-				 [b, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, b],
-				 [b, b, b, b, b, w, b, b, b, w, b, b, b, w, b, b, b, b, b],
-				 [w, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, w],
-				 [w, w, w, w, b, w, b, b, b, b, b, b, b, w, b, w, w, w, w],
-				 [w, w, w, w, b, w, b, w, w, b, w, w, b, w, b, w, w, w, w],
-				 [w, w, w, w, b, b, b, w, b, b, b, w, b, b, b, w, w, w, w],
-				 [w, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, w],
-				 [w, w, w, w, b, w, b, b, b, b, b, b, b, w, b, w, w, w, w],
-				 [w, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, w],
-				 [b, b, b, b, b, b, b, b, b, w, b, b, b, b, b, b, b, b, b],
-				 [b, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
-				 [b, b, b, w, b, b, b, b, b, b, b, b, b, b, b, w, b, b, b],
-				 [w, w, b, w, b, w, b, w, w, w, w, w, b, w, b, w, b, w, w],
-				 [b, b, b, b, b, w, b, b, b, w, b, b, b, w, b, b, b, b, b],
-				 [b, w, w, w, w, w, w, w, b, w, b, w, w, w, w, w, w, w, b],
-				 [b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b]])
+# starting_pos = (15, 9)
+# maze = np.array([[b, b, b, b, b, b, b, b, b, w, b, b, b, b, b, b, b, b, b],
+# 				 [t, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
+# 				 [b, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
+# 				 [b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b],
+# 				 [b, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, b],
+# 				 [b, b, b, b, b, w, b, b, b, w, b, b, b, w, b, b, b, b, b],
+# 				 [w, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, w],
+# 				 [w, w, w, w, b, w, b, b, b, b, b, b, b, w, b, w, w, w, w],
+# 				 [w, w, w, w, b, w, b, w, w, b, w, w, b, w, b, w, w, w, w],
+# 				 [w, w, w, w, b, b, b, w, b, b, b, w, b, b, b, w, w, w, w],
+# 				 [w, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, w],
+# 				 [w, w, w, w, b, w, b, b, b, b, b, b, b, w, b, w, w, w, w],
+# 				 [w, w, w, w, b, w, b, w, w, w, w, w, b, w, b, w, w, w, w],
+# 				 [b, b, b, b, b, b, b, b, b, w, b, b, b, b, b, b, b, b, b],
+# 				 [b, w, w, w, b, w, w, w, b, w, b, w, w, w, b, w, w, w, b],
+# 				 [b, b, b, w, b, b, b, b, b, b, b, b, b, b, b, w, b, b, t],
+# 				 [w, w, b, w, b, w, b, w, w, w, w, w, b, w, b, w, b, w, w],
+# 				 [b, b, b, b, b, w, b, b, b, w, b, b, b, w, b, b, b, b, b],
+# 				 [b, w, w, w, w, w, w, w, b, w, b, w, w, w, w, w, w, w, b],
+# 				 [b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b, b]])
 
 # starting_pos = (2, 2)
-# maze = np.array([[b, b, b, w, b],
+# maze = np.array([[b, b, t, w, b],
 # 				 [w, w, b, w, b],
 # 				 [b, b, b, b, b],
 # 				 [b, b, b, b, b],
 # 				 [t, w, b, w, b]])
+
+starting_pos = (0, 0)
+maze = np.array([[b, b, t],
+				 [b, b, b],
+				 [t, b, b]])
 
 # starting_pos = (0, 0)
 # maze = np.array([[b, b],
@@ -49,8 +54,8 @@ print('Solving...', end=' ', flush=True)
 moves = solve(maze, starting_pos, q_table)
 print('done')
 
-# print(moves)
+print('Calculated path:', moves)
 
-# print('Creating GIF...', end=' ', flush=True)
-# createAnimation(maze, starting_pos, moves)
-# print('done')
+print('Creating GIF...', end=' ', flush=True)
+createAnimation(maze, starting_pos, moves)
+print('done')

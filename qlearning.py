@@ -18,6 +18,7 @@ gamma = 0.6
 epsilon = 0.1
 
 n_episodes = 1000
+max_time_steps = 200
 
 actions = [u, d, l, r]
 
@@ -66,7 +67,7 @@ def next_reward_done(current_state, move):
 
 def qlearn(maze_, starting_pos):
 	global maze
-	maze = maze_
+	maze = deepcopy(maze_)
 
 	treasures = np.argwhere(maze == t).tolist()
 
@@ -81,7 +82,9 @@ def qlearn(maze_, starting_pos):
 				combinations = list(itertools.combinations(treasures, k + 1))
 
 				for x in range(len(combinations)):
-					all_states.append(State((i, j), list(combinations[x])))
+					s = State((i, j), list(combinations[x]))
+					if s not in all_states:
+						all_states.append(s)
 
 	# construct reward table
 	reward_table = []
@@ -95,12 +98,15 @@ def qlearn(maze_, starting_pos):
 	q_table = np.zeros((len(all_states), 4))
 
 	for i in range(n_episodes):
-		
 		state = State(starting_pos, treasures)
+		maze = deepcopy(maze_)
 
 		done = False
+		# time_step = 0
 
-		while not done:
+		while not done: #and time_step < max_time_steps:
+			# print(time_step)
+			# time_step += 1
 
 			state_index = all_states.index(state)
 
@@ -110,7 +116,10 @@ def qlearn(maze_, starting_pos):
 				action_index = actions.index(action)
 			else:
 				# exploit
-				action_index = np.argmax(q_table[state_index])
+				if sum(q_table[state_index]) == 0:
+					action_index = np.random.choice(4)
+				else:
+					action_index = np.argmax(q_table[state_index])
 				action = actions[action_index]
 
 			next_state_index, reward, done = next_reward_done(state, action)
@@ -122,6 +131,9 @@ def qlearn(maze_, starting_pos):
 			q_table[state_index, action_index] = new_q
 
 			state = all_states[next_state_index]
+
+			if maze[state.pos] == t:
+				maze[state.pos] = b
 	
 	return q_table
 
