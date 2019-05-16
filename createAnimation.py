@@ -6,19 +6,20 @@ maze = None
 sequence = []
 current_pos = None
 
+np.random.seed(0)
+
 # maze visualization constants
-b = np.array([255, 255, 255]) 	# blank, white
-w = np.array([0, 0, 0]) 		# wall, black
-t = np.array([255, 255, 0]) 	# treasure, yellow
-e = np.array([255, 0, 0])		# enemy, red
-p = np.array([0, 255, 0])		# player, green
+b = 'b'
+w = 'w'
+t = 't'
+p = 'p'
 
 def add_frame():
 	'''Adds image of current maze state to sequence of frames, to be exported to GIF later'''
 
 	global sequence
 
-	temp = copy.deepcopy(maze)
+	temp = copy.copy(maze)
 	temp[current_pos] = p
 	sequence.append(temp)
 
@@ -58,7 +59,7 @@ def move(direction):
 	else:
 		print('Unknown move command "{}"'.format(direction))
 
-def createAnimation(input_maze, start_pos, moves):
+def createAnimation(input_maze, start_pos, player_moves):
 
 	global sequence
 	global maze
@@ -69,7 +70,7 @@ def createAnimation(input_maze, start_pos, moves):
 
 	add_frame()
 
-	for m in moves:
+	for m in player_moves:
 		move(m)
 
 	add_frame()
