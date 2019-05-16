@@ -97,16 +97,18 @@ def qlearn(maze_, starting_pos):
 	# initialize q table
 	q_table = np.zeros((len(all_states), 4))
 
+	n_time_steps = []
+
 	for i in range(n_episodes):
+		i % 100 == 0 and print('Episode:', i)
 		state = State(starting_pos, treasures)
 		maze = deepcopy(maze_)
 
 		done = False
-		# time_step = 0
+		time_step = 0
 
-		while not done: #and time_step < max_time_steps:
-			# print(time_step)
-			# time_step += 1
+		while not done:
+			time_step += 1
 
 			state_index = all_states.index(state)
 
@@ -134,8 +136,10 @@ def qlearn(maze_, starting_pos):
 
 			if maze[state.pos] == t:
 				maze[state.pos] = b
+		
+		n_time_steps.append(time_step)
 	
-	return q_table
+	return q_table, n_time_steps
 
 def solve(maze, starting_pos, q_table):
 	
