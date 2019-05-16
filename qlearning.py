@@ -151,7 +151,7 @@ def qlearn(maze_, starting_pos):
 
 			state = all_states[next_state_index]
 
-			if maze[state.pos] == t:
+			if maze[state.pos] == t or maze[state.pos] == e:
 				maze[state.pos] = b
 		
 		n_time_steps.append(time_step)

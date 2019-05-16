@@ -13,6 +13,7 @@ b = 'b'
 w = 'w'
 t = 't'
 p = 'p'
+e = 'e'
 
 def add_frame():
 	'''Adds image of current maze state to sequence of frames, to be exported to GIF later'''
@@ -29,7 +30,7 @@ def move(direction):
 
 	global current_pos
 
-	if np.array_equal(maze[current_pos], t):
+	if np.array_equal(maze[current_pos], t) or np.array_equal(maze[current_pos], e):
 		maze[current_pos] = b
 
 	if direction.lower() == 'u':
