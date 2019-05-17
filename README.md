@@ -33,7 +33,7 @@ To run the medium environment with enemies:
 python3 main.py medium enemies
 ```
 
-**Note: It takes a very long time to train on the large mazes (with and without enemies). This has already been done and the results are shown below**
+**Note: It takes a very long time to train on the large environment without enemies. This has already been done and the results are shown below**
 
 ### Results
 
