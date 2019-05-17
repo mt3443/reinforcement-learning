@@ -39,6 +39,8 @@ python3 main.py medium enemies
 
 For each environment, a GIF and plot were created. The GIF graphically shows the agents path through the environment. The plot shows the number of time steps taken to collect all treasures at each episode during training. There is a general trend in each plot. They all start rather high (it takes a long time to collect all treasures initially because the agent hasn't learned how), and as training continues, the amount of time steps taken to collect all treasures decreases and eventually converges as the model learns the best path. Plots were not included for the small environments since they were so simple. Essentially no improvement was shown in the small plots.
 
+**Note: In these examples the green square represents the agent, yellow squares represent treasure, black squares represent walls, and red squares represent enemies**
+
 **Small environment with no enemies:**
 
 ![](https://i.imgur.com/FdjkZI7.gif)
