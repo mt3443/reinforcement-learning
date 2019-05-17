@@ -23,12 +23,12 @@ python3 main.py <size> [enemies]
 
 **Examples:**
 
-To run the small maze with no enemies:
+To run the small environment with no enemies:
 ```
 python3 main.py small
 ```
 
-To run the medium maze with enemies:
+To run the medium environment with enemies:
 ```
 python3 main.py medium enemies
 ```
@@ -40,14 +40,29 @@ python3 main.py medium enemies
 For each environment, a GIF and plot were created. The GIF graphically shows the agents path through the environment. The plot shows the number of time steps taken to collect all treasures at each episode during training. There is a general trend in each plot. They all start rather high (it takes a long time to collect all treasures initially because the agent hasn't learned how), and as training continues, the amount of time steps taken to collect all treasures decreases and eventually converges as the model learns the best path. Plots were not included for the small environments since they were so simple. Essentially no improvement was shown in the small plots.
 
 **Small environment with no enemies:**
+
 ![](https://i.imgur.com/FdjkZI7.gif)
 
 With no enemies or obstacles, the agent maximizes its reward by heading directly for each treasure.
 
 **Small environment with enemies:**
+
 ![](https://i.imgur.com/8RNZwcU.gif)
 
 To avoid the moderate penalty of fighting, the agent circumvents the enemies to collect the treasures. In this basic example, the agent essentially treats the enemies as walls. The penalty for attacking the enemies is much higher than the penalty for the few steps it takes to avoid them.
 
 **Medium environment with no enemies:**
+
 ![](https://i.imgur.com/4yl0sSF.gif)
+
+This is the first environment that introduces walls. The agent is totally incapable of moving through a wall, so it's forced to move around each of them to collect all three treasures.
+
+![](https://i.imgur.com/cWWKE2A.png)
+
+This plot clearly shows the effect Q-learning has on the agent's behavior. Initially the number of time steps (or moves) required to collect all three treasures in this map was above 350! At this time, the agent was essentially making random movements and recording how each movement rewarded it. After only about 50 episodes, the agent seems to have found a rather good path for collecting each of the treasures in this environment. The slighly stochastic trend seen beyond episode 50 is due to the occasional exploration of the environment's solution space. Even though the agent already has some notion of what path gives success, it trys a new path in hopes that it will uncover an even better path. For more information, look into the [exploration-exploitation tradeoff](https://en.wikipedia.org/wiki/Multi-armed_bandit).
+
+**Medium enironment with enemies:**
+
+
+
+This is the first example of the agent choosing to attack
