@@ -16,7 +16,7 @@ This project was written in Python 3.7.2 and requires modules that can be instal
 ```
 pip3 install -r requirements.txt
 ```
-Once the dependencies are installed, learning can commence. To train an agent, an environment size must be specified. The available sizes are 'small', 'medium', and 'large'. Optionally, the presence of enemies in each environment can be toggled by adding 'enemies' to the command. Each of the environments can used by issuing a command of this format:
+Once the dependencies are installed, learning can commence. To train an agent, an environment size must be specified. The available sizes are "small", "medium", and "large". Optionally, the presence of enemies in each environment can be toggled by adding "enemies" to the command. Each of the environments can used by issuing a command of this format:
 ```
 python3 main.py <size> [enemies]
 ```
@@ -61,8 +61,36 @@ This is the first environment that introduces walls. The agent is totally incapa
 
 This plot clearly shows the effect Q-learning has on the agent's behavior. Initially the number of time steps (or moves) required to collect all three treasures in this map was above 350! At this time, the agent was essentially making random movements and recording how each movement rewarded it. After only about 50 episodes, the agent seems to have found a rather good path for collecting each of the treasures in this environment. The slighly stochastic trend seen beyond episode 50 is due to the occasional exploration of the environment's solution space. Even though the agent already has some notion of what path gives success, it trys a new path in hopes that it will uncover an even better path. For more information, look into the [exploration-exploitation tradeoff](https://en.wikipedia.org/wiki/Multi-armed_bandit).
 
-**Medium enironment with enemies:**
+**Medium environment with enemies:**
 
+![](https://i.imgur.com/fnaJBJy.gif)
 
+This is the first example of the agent choosing to attack an enemy. There are two key differences to note between the agent's behavior in this environment and in the previous environment. First, the agent collects all of the treasures it can that don't require attacking the enemy. This illustrates Q-learning's notion of the short term reward. The agent would rather do the hardest part last, in a sense. Second, it's worth noting that in this case, the agent only attacks the enemy because there are no alternate routes.
 
-This is the first example of the agent choosing to attack
+![](https://i.imgur.com/BXo68q9.png)
+
+Admittedly, this plot has a rather unusual, but explainable shape. Like the previous plot, this one begins with a rather high number of time steps per episode, since again, the model doesn't know the best way to collect all treasures. However, around episode 25, the agent goes on a streak of exploration which at first doesn't yield spectacular results. But then, at around episode 35, the repeated exploration allows the agent to exploit a highly efficient, and arguably best, path.
+
+**Large environment with no enemies:**
+
+![](https://i.imgur.com/nZ3rZn4.gif)
+
+Clearly, this environment takes inspiration from PacMan. As opposed to the medium environment with no enemies, this environment contains multiple paths to each treasure, which greatly expands the state and solution spaces. This test was meant to stress-test the capabilities of the Q-learning implementation.
+
+![](https://i.imgur.com/KkyQ4Wr.png)
+
+This plot shares the trend that each of the previous plots possess. Over time, the agent becomes more adept at collecting all treasures in a timely manner. Something worth noting is the much higher number of episodes required for the number of time steps to converge. This is a direct consequence of the incredibly large state and solution space.
+
+**Large environment with enemies:**
+
+![](https://i.imgur.com/Ch7Zisb.gif)
+
+This final environment illustrates an interesting phenomenon. In the small environment with enemies, the agent treated the enemies as walls because it could. In that example there was an other path around the enemies. In the medium environment with enemies, the agent only attacked the enemy because it was the only way to obtain the final treasure. In this example, there is clearly a path around the enemy that leads to all treasures. However, the agent attacks. This is because of the factors driving the agent. As previously stated, the agent is trying to *quickly* collect all of the treasures while simultaneously avoiding enemies. Because the path around the enemy is so long, the penalty for taking that path is much higher than the penalty for attacking the enemy. The agent chooses to attack the enemy in order to collect the treasures in a short amount of time.
+
+![](https://i.imgur.com/MNlHPDn.png)
+
+This plot converged faster than any other environment. This is simply because the resulting (best) path was so simple. After only about 10 episodes, the agent learned that attacking the enemy and heading straight for the treasures was faster than going around the enemy. It's worth noting the incredibly large number of time steps the agent initially took per episode to avoid attacking the enemy before finding out attacking the enemy resulted in a lower overall penalty.
+
+### Optimizations and Future Work
+
+Given more time to work on this project, I would have implemented multiple reinforcement learning algorithms and compared the results. Perhaps one algorithm would have found the best solution faster than all others for this application. A substantial piece of future work would be making the enemies move or chase the agent. Because I had PacMan in mind when doing this project, an attempt at implementing this feature was made, but with the current policy/architecture, the state space grew exponentially. Training a model in an environment with moving enemies soon became infeasible due to the incredible number of possible states. Further improvements could also be made to the current Q-learning implementation to reduce total execution time, such as hyperparameter tuning or general architecture redesign. 
